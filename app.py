@@ -1,6 +1,27 @@
 import streamlit as st
+import sys
+import subprocess
+import logging
+
+# Configurar logging
+logging.basicConfig(level=logging.INFO)
+
+def install_packages():
+    required = ["pandas==2.2.1", "plotly==5.18.0", "numpy==1.26.0"]
+    for package in required:
+        try:
+            __import__(package.split('==')[0])
+            logging.info(f"{package} ya está instalado")
+        except ImportError:
+            logging.info(f"Instalando {package}...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+install_packages()
+
+# Ahora importa las librerías
 import pandas as pd
 import plotly.express as px
+import numpy as np
 
 # Configuración de la página
 st.set_page_config(
